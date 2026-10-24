@@ -30,25 +30,53 @@ npm run dev
 打开 [http://127.0.0.1:18765](http://127.0.0.1:18765)  
 演示账号：`admin` / `admin123`
 
-## MySQL + Milvus 正式依赖
+## 本机已有 MySQL + Milvus（推荐你这样接）
+
+项目已支持直连你现成的 MySQL / Milvus，不必再用 SQLite / Milvus Lite。
+
+1. MySQL 建库：
+
+```sql
+CREATE DATABASE zhifu DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+```
+
+2. 配置后端环境变量：
 
 ```bash
-docker compose up -d
+cd backend
+cp .env.mysql.example .env
+# 编辑 .env：改 DATABASE_URL 里的账号密码端口；VECTOR_URI 指向 Milvus
 ```
 
-修改 `backend/.env`：
+示例：
 
 ```env
-DATABASE_URL=mysql+pymysql://root:root@127.0.0.1:3306/zhifu
+DATABASE_URL=mysql+pymysql://root:你的密码@127.0.0.1:3306/zhifu?charset=utf8mb4
 VECTOR_URI=http://127.0.0.1:19530
-LLM_MOCK=false
-LLM_BASE_URL=http://127.0.0.1:11434/v1
-LLM_MODEL=qwen2.5:7b
-EMBEDDING_BASE_URL=http://127.0.0.1:11434/v1
-EMBEDDING_MODEL=qwen3-embedding:0.6b
+MILVUS_COLLECTION=kb_chunks
+LLM_MOCK=true
 ```
 
-本地 Qwen 可用 Ollama / vLLM 等提供 OpenAI 兼容接口。
+3. 启动（与上面相同）：
+
+```bash
+source .venv/bin/activate
+pip install -r requirements.txt
+uvicorn app.main:app --host 0.0.0.0 --port 18766 --reload
+```
+
+首次启动会自动建表并写入演示账号 `admin` / `admin123`、示例会话与 FAQ。
+
+**WSL 注意：** 若 MySQL / Milvus 跑在 Windows Docker 里、后端跑在 WSL，`127.0.0.1` 可能连不上。可把主机改成 Windows 宿主机 IP（WSL2 常见：`cat /etc/resolv.conf` 里的 `nameserver`），例如：
+
+```env
+DATABASE_URL=mysql+pymysql://root:密码@172.x.x.x:3306/zhifu?charset=utf8mb4
+VECTOR_URI=http://172.x.x.x:19530
+```
+
+也可用仓库自带 Compose 再起一套：`docker compose up -d`（端口 3306 / 19530）。
+
+本地 Qwen 可用 Ollama / vLLM；有模型后设 `LLM_MOCK=false`。
 
 ## 目录
 

@@ -38,4 +38,20 @@ def on_startup():
 
 @app.get("/api/health")
 def health():
-    return {"code": 200, "msg": "ok", "data": {"app": settings.app_name, "llm_mock": settings.llm_mock}}
+    db_kind = "mysql" if settings.database_url.startswith("mysql") else "sqlite"
+    vector_kind = (
+        "milvus"
+        if settings.vector_uri.startswith("http://") or settings.vector_uri.startswith("https://")
+        else "milvus-lite"
+    )
+    return {
+        "code": 200,
+        "msg": "ok",
+        "data": {
+            "app": settings.app_name,
+            "llm_mock": settings.llm_mock,
+            "database": db_kind,
+            "vector": vector_kind,
+            "vector_uri": settings.vector_uri,
+        },
+    }
