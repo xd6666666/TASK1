@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>智服云 · 智能客服管理平台</title>
+<link rel="stylesheet" href="assets/style.css" />
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.6"/><rect x="14" y="3" width="7" height="7" rx="1.6"/><rect x="3" y="14" width="7" height="7" rx="1.6"/><rect x="14" y="14" width="7" height="7" rx="1.6"/></symbol>
+  <symbol id="i-headset" viewBox="0 0 24 24"><path d="M4 14v-2a8 8 0 0 1 16 0v2"/><path d="M4 14h2a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z"/><path d="M20 14h-2a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1z"/><path d="M17 20v1a2 2 0 0 1-2 2h-2"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.4-3.4"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6h.09A1.65 1.65 0 0 0 10 3.09V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-filter" viewBox="0 0 24 24"><path d="M3 5h18l-7 8v6l-4 2v-8z"/></symbol>
+  <symbol id="i-upload" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 9 5-5 5 5M12 4v12"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 11 5 5 5-5M12 16V4"/></symbol>
+  <symbol id="i-more" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.4" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.4" fill="currentColor" stroke="none"/><circle cx="19" cy="12" r="1.4" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-send" viewBox="0 0 24 24"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></symbol>
+  <symbol id="i-sparkles" viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M3 12h4M17 12h4"/><path d="m6.4 6.4 2.4 2.4M15.2 15.2l2.4 2.4M17.6 6.4l-2.4 2.4M8.8 15.2l-2.4 2.4"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/><path d="M3 21v-5h5"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m20 6-11 11-5-5"/></symbol>
+  <symbol id="i-check-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8.5 12 2.5 2.5 4.5-5"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/><path d="M12 9v4M12 17h.01"/></symbol>
+  <symbol id="i-trend-up" viewBox="0 0 24 24"><path d="m3 17 6-6 4 4 8-8"/><path d="M15 7h6v6"/></symbol>
+  <symbol id="i-trend-down" viewBox="0 0 24 24"><path d="m3 7 6 6 4-4 8 8"/><path d="M15 17h6v-6"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
+  <symbol id="i-clipboard" viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-smile" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8.5 14.5a4 4 0 0 0 7 0M9 9.5h.01M15 9.5h.01"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7z"/><path d="M14 2v5h5"/><path d="M9 13h6M9 17h4"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24"><path d="m12 2 9 5-9 5-9-5z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/></symbol>
+  <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.4" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-database" viewBox="0 0 24 24"><ellipse cx="12" cy="5.5" rx="8" ry="3"/><path d="M4 5.5v13c0 1.7 3.6 3 8 3s8-1.3 8-3v-13"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></symbol>
+  <symbol id="i-external" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6M10 14 21 3"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="m12 3 2.8 5.9 6.2.9-4.5 4.5 1 6.4-5.5-3-5.5 3 1-6.4L3 9.8l6.2-.9z"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-edit" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></symbol>
+  <symbol id="i-zap" viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></symbol>
+  <symbol id="i-paperclip" viewBox="0 0 24 24"><path d="M21 12.5 12.6 21a5 5 0 0 1-7-7l8.4-8.4a3.3 3.3 0 1 1 4.7 4.7l-8.5 8.4a1.7 1.7 0 0 1-2.3-2.3l7.8-7.8"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.9a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.5c.9.3 1.9.6 2.9.7a2 2 0 0 1 1.7 2Z"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M6 4.5v15l13-7.5z"/></symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24"><path d="M19 12H5M11 18l-6-6 6-6"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></symbol>
+  <symbol id="i-save" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z"/><path d="M17 21v-8H7v8M7 3v5h8"/></symbol>
+  <symbol id="i-history" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/><path d="M12 8v4l3 2"/></symbol>
+  <symbol id="i-list" viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></symbol>
+  <symbol id="i-loop" viewBox="0 0 24 24"><path d="M17 2l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 22l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></symbol>
+</svg>
+
+<div class="app">
+  <!-- ============================ Sidebar ============================ -->
+  <aside class="sidebar">
+    <nav class="nav">
+      <div class="nav-label">工作空间</div>
+      <button class="nav-item active" data-page="dashboard" data-title="运营概览" data-sub="智能客服全链路运营数据">
+        <svg class="icon"><use href="#i-grid"/></svg><span>运营概览</span>
+      </button>
+      <button class="nav-item" data-page="workspace" data-title="客服工作台" data-sub="人机协作 · 实时会话处理">
+        <svg class="icon"><use href="#i-headset"/></svg><span>客服工作台</span><em class="nav-badge">6</em>
+      </button>
+
+      <div class="nav-label">知识中枢</div>
+      <button class="nav-item" data-page="knowledge" data-title="知识库管理" data-sub="18 篇文档 · 12 组问答 · 统一供给">
+        <svg class="icon"><use href="#i-book"/></svg><span>知识库管理</span>
+      </button>
+      <button class="nav-item" data-page="search" data-title="知识查询" data-sub="语义检索 · 召回调试与效果分析">
+        <svg class="icon"><use href="#i-search"/></svg><span>知识查询</span>
+      </button>
+
+      <div class="nav-label">质量管理</div>
+      <button class="nav-item" data-page="qa" data-title="质检系统" data-sub="全量自动质检 · 人工复核">
+        <svg class="icon"><use href="#i-shield"/></svg><span>质检系统</span><em class="nav-badge">3</em>
+      </button>
+
+      <div class="nav-label">系统</div>
+      <button class="nav-item" data-page="settings" data-title="系统设置" data-sub="模型、渠道与团队配置">
+        <svg class="icon"><use href="#i-settings"/></svg><span>系统设置</span>
+      </button>
+    </nav>
+
+    <div class="sidebar-foot">
+      <div class="help-card">
+        <h4>AI 训练营</h4>
+        <p>让大模型更懂你的业务，3 步完成语料接入。</p>
+        <button>查看引导 <svg class="icon icon-sm"><use href="#i-arrow-right"/></svg></button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ============================ Main ============================ -->
+  <div class="main">
+    <header class="topbar">
+      <div class="topbar-title">
+        <h1 id="pageTitle">运营概览</h1>
+        <p id="pageSub">智能客服全链路运营数据</p>
+      </div>
+      <div class="topbar-search">
+        <svg class="icon"><use href="#i-search"/></svg>
+        <input placeholder="搜索会话、知识、客户或工单…" />
+        <span class="kbd">⌘K</span>
+      </div>
+      <div class="topbar-actions">
+        <button class="icon-btn" title="刷新"><svg class="icon"><use href="#i-refresh"/></svg></button>
+        <button class="icon-btn" title="通知"><svg class="icon"><use href="#i-bell"/></svg><span class="dot"></span></button>
+        <div class="divider-v"></div>
+        <button class="user-chip">
+          <div class="avatar">陈</div>
+          <div style="text-align:left">
+            <div class="user-name">陈屿</div>
+            <span class="user-role">客服主管</span>
+          </div>
+          <svg class="icon icon-sm" style="color:#9aa2b4"><use href="#i-chevron-down"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <div class="content">
+
+      <!-- ==================== 1. Dashboard ==================== -->
+      <section class="page active" id="page-dashboard">
+        <div class="page-head">
+          <div>
+            <h2>下午好，陈屿 👋</h2>
+            <p>今日已服务 1,284 位客户，AI 独立解决 78.6%，有 3 条质检异常待复核。</p>
+          </div>
+          <div class="actions">
+            <button class="btn"><svg class="icon"><use href="#i-calendar"/></svg> 2026 年 10 月 19 日</button>
+            <button class="btn"><svg class="icon"><use href="#i-download"/></svg> 导出报表</button>
+            <button class="btn btn-primary" data-goto="workspace"><svg class="icon"><use href="#i-headset"/></svg> 进入工作台</button>
+          </div>
+        </div>
+
+        <div class="kpi-grid">
+          <div class="card kpi">
+            <div class="kpi-top">
+              <span class="kpi-label">今日会话量</span>
+              <span class="kpi-icon"><svg class="icon"><use href="#i-headset"/></svg></span>
+            </div>
+            <div class="kpi-value">1,284</div>
+            <div class="kpi-foot"><span class="delta up"><svg class="icon"><use href="#i-trend-up"/></svg>12.4%</span> 较昨日</div>
+            <svg class="spark" width="112" height="46" viewBox="0 0 112 46"><path d="M2 38 L16 32 L30 34 L44 24 L58 27 L72 17 L86 20 L100 9 L110 12" fill="none" stroke="#cfd2fb" stroke-width="2" stroke-linecap="round"/></svg>
+          </div>
+          <div class="card kpi">
+            <div class="kpi-top">
+              <span class="kpi-label">AI 自助解决率</span>
+              <span class="kpi-icon teal"><svg class="icon"><use href="#i-sparkles"/></svg></span>
+            </div>
+            <div class="kpi-value">78.6<small>%</small></div>
+            <div class="kpi-foot"><span class="delta up"><svg class="icon"><use href="#i-trend-up"/></svg>3.2%</span> 目标 75%</div>
+            <svg class="spark" width="112" height="46" viewBox="0 0 112 46"><path d="M2 34 L16 36 L30 28 L44 30 L58 20 L72 22 L86 14 L100 16 L110 8" fill="none" stroke="#b5e9e7" stroke-width="2" stroke-linecap="round"/></svg>
+          </div>
+          <div class="card kpi">
+            <div class="kpi-top">
+              <span class="kpi-label">平均首响时长</span>
+              <span class="kpi-icon violet"><svg class="icon"><use href="#i-clock"/></svg></span>
+            </div>
+            <div class="kpi-value">12<small>秒</small></div>
+            <div class="kpi-foot"><span class="delta up"><svg class="icon"><use href="#i-trend-down"/></svg>4s</span> 较上周更快</div>
+            <svg class="spark" width="112" height="46" viewBox="0 0 112 46"><path d="M2 12 L16 18 L30 15 L44 24 L58 22 L72 30 L86 28 L100 35 L110 33" fill="none" stroke="#e3d5fb" stroke-width="2" stroke-linecap="round"/></svg>
+          </div>
+          <div class="card kpi">
+            <div class="kpi-top">
+              <span class="kpi-label">质检合格率</span>
+              <span class="kpi-icon warn"><svg class="icon"><use href="#i-shield"/></svg></span>
+            </div>
+            <div class="kpi-value">94.2<small>%</small></div>
+            <div class="kpi-foot"><span class="delta down"><svg class="icon"><use href="#i-trend-down"/></svg>0.8%</span> 抽检 320 通</div>
+            <svg class="spark" width="112" height="46" viewBox="0 0 112 46"><path d="M2 16 L16 12 L30 18 L44 14 L58 20 L72 17 L86 24 L100 21 L110 27" fill="none" stroke="#f7e0b8" stroke-width="2" stroke-linecap="round"/></svg>
+          </div>
+        </div>
+
+        <div class="dash-grid">
+          <div class="card">
+            <div class="card-head">
+              <h3>会话趋势</h3>
+              <span class="sub">近 7 天</span>
+              <div class="chart-legend">
+                <span class="legend-item"><i class="legend-dot" style="background:#4f46e5"></i>总会话</span>
+                <span class="legend-item"><i class="legend-dot" style="background:#0ea5a5"></i>AI 解决</span>
+                <span class="legend-item"><i class="legend-dot" style="background:#f0b46a"></i>转人工</span>
+              </div>
+              <div class="spacer"></div>
+              <div class="segmented" id="trendRange">
+                <button class="active" data-range="7">7 天</button>
+                <button data-range="14">14 天</button>
+              </div>
+            </div>
+            <div class="chart-wrap"><div id="trendChart"></div></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head">
+              <h3>渠道分布</h3>
+              <span class="sub">今日</span>
+              <div class="spacer"></div>
+              <button class="icon-btn" style="width:28px;height:28px"><svg class="icon icon-sm"><use href="#i-more"/></svg></button>
+            </div>
+            <div class="card-body" style="padding:14px 18px">
+              <div class="donut-wrap">
+                <div id="donutChart"></div>
+                <div class="donut-legend" id="donutLegend"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="dash-grid-2">
+          <div class="card">
+            <div class="card-head">
+              <h3>知识命中 Top 5</h3>
+              <div class="spacer"></div>
+              <span class="sub">今日调用</span>
+            </div>
+            <div class="card-body"><div class="hbar-list" id="hitBars"></div></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head">
+              <h3>质检异常分布</h3>
+              <div class="spacer"></div>
+              <span class="badge badge-warn">共 17 条</span>
+            </div>
+            <div class="card-body">
+              <div class="hbar-list" id="qaBars"></div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head">
+              <h3>实时预警</h3>
+              <div class="spacer"></div>
+              <span class="badge badge-danger"><i class="dot"></i>3 条待处理</span>
+            </div>
+            <div class="alert-list">
+              <div class="alert-item">
+                <div class="alert-dot danger"><svg class="icon icon-sm"><use href="#i-alert"/></svg></div>
+                <div class="alert-text">
+                  <p>会话 #A-2048 出现客户情绪升级，等待超时 96 秒</p>
+                  <span>2 分钟前 · 渠道：微信 · 客服 李沐</span>
+                </div>
+                <button class="btn btn-sm" data-goto="workspace">接管</button>
+              </div>
+              <div class="alert-item">
+                <div class="alert-dot warn"><svg class="icon icon-sm"><use href="#i-clock"/></svg></div>
+                <div class="alert-text">
+                  <p>「售后政策」知识库有 4 篇文档已超过 90 天未更新</p>
+                  <span>18 分钟前 · 知识库管理</span>
+                </div>
+                <button class="btn btn-sm" data-goto="knowledge">查看</button>
+              </div>
+              <div class="alert-item">
+                <div class="alert-dot danger"><svg class="icon icon-sm"><use href="#i-shield"/></svg></div>
+                <div class="alert-text">
+                  <p>质检复核队列积压 3 条，其中 1 条为高风险工单</p>
+                  <span>32 分钟前 · 质检系统</span>
+                </div>
+                <button class="btn btn-sm" data-goto="qa">复核</button>
+              </div>
+              <div class="alert-item">
+                <div class="alert-dot ok"><svg class="icon icon-sm"><use href="#i-check-circle"/></svg></div>
+                <div class="alert-text">
+                  <p>知识库增量索引完成，新增 24 条问答对</p>
+                  <span>1 小时前 · 系统任务</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== 2. Workspace ==================== -->
+      <section class="page" id="page-workspace">
+        <div class="ws">
+          <aside class="ws-list">
+            <div class="ws-list-head">
+              <div class="segmented" id="convFilter">
+                <button class="active" data-filter="all">全部 12</button>
+                <button data-filter="active">进行中 4</button>
+                <button data-filter="queue">排队 2</button>
+              </div>
+              <div class="field">
+                <svg class="icon"><use href="#i-search"/></svg>
+                <input id="convSearch" placeholder="搜索客户 / 会话内容" />
+              </div>
+            </div>
+            <div class="conv-list" id="convList"></div>
+          </aside>
+
+          <main class="ws-chat">
+            <div class="chat-head">
+              <div class="conv-avatar" id="chatAvatar">张</div>
+              <div class="info">
+                <div class="name" id="chatName">张悠然 <span class="badge badge-primary">VIP</span></div>
+                <div class="meta"><span id="chatChannel">微信客服</span><span>·</span><span>会话 #A-2048</span><span>·</span><span id="chatStatus">进行中</span></div>
+              </div>
+              <div class="actions">
+                <button class="icon-btn" title="转接"><svg class="icon"><use href="#i-refresh"/></svg></button>
+                <button class="icon-btn" title="查看客户资料"><svg class="icon"><use href="#i-user"/></svg></button>
+                <button class="icon-btn" title="更多"><svg class="icon"><use href="#i-more"/></svg></button>
+                <button class="btn btn-sm btn-danger" id="endChat">结束会话</button>
+              </div>
+            </div>
+
+            <div class="chat-body" id="chatBody"></div>
+
+            <div class="ai-suggest" id="aiSuggest">
+              <div class="ai-suggest-head">
+                <svg class="icon"><use href="#i-sparkles"/></svg> AI 推荐回复
+                <span class="confidence" id="aiConfidence">置信度 92% · 引用 2 篇知识</span>
+              </div>
+              <p id="aiText">已为您查询到订单 SO-20261012-8842 的退款进度：仓库已于今日 10:24 签收，退款将在 1-2 个工作日内原路退回，请留意账户到账通知。</p>
+              <div class="acts">
+                <button class="btn btn-primary" id="useAi">采纳并编辑</button>
+                <button class="btn" id="copyAi">复制</button>
+                <button class="btn btn-ghost" id="regenAi"><svg class="icon"><use href="#i-refresh"/></svg>换一个</button>
+              </div>
+            </div>
+
+            <div class="composer">
+              <div class="composer-tools">
+                <button class="tool-btn" title="表情"><svg class="icon icon-sm"><use href="#i-smile"/></svg></button>
+                <button class="tool-btn" title="附件"><svg class="icon icon-sm"><use href="#i-paperclip"/></svg></button>
+                <button class="tool-btn" title="快捷话术"><svg class="icon icon-sm"><use href="#i-zap"/></svg></button>
+                <button class="tool-btn" title="知识检索"><svg class="icon icon-sm"><use href="#i-book"/></svg></button>
+              </div>
+              <textarea id="composerInput" placeholder="输入回复内容，Enter 发送 / Shift + Enter 换行"></textarea>
+              <div class="composer-foot">
+                <span class="hint">AI 辅助已开启 · 输入「/」调用快捷话术</span>
+                <button class="btn btn-primary btn-sm" id="sendMsg"><svg class="icon"><use href="#i-send"/></svg> 发送</button>
+              </div>
+            </div>
+          </main>
+
+          <aside class="ws-side">
+            <div class="side-sec">
+              <div class="cust-head">
+                <div class="conv-avatar" id="custAvatar">张</div>
+                <div>
+                  <div class="name" id="custName">张悠然 <span class="badge badge-violet">SVIP</span></div>
+                  <div class="sub" id="custSub">零售客户 · 注册 386 天</div>
+                </div>
+              </div>
+              <dl style="margin:0">
+                <div class="info-row"><dt>手机号</dt><dd>138****6621</dd></div>
+                <div class="info-row"><dt>会员等级</dt><dd>黑金会员</dd></div>
+                <div class="info-row"><dt>累计订单</dt><dd>27 笔 / ¥18,420</dd></div>
+                <div class="info-row"><dt>历史会话</dt><dd>6 次 · 满意度 4.8</dd></div>
+                <div class="info-row"><dt>当前标签</dt><dd><span class="badge badge-teal">退款中</span></dd></div>
+              </dl>
+            </div>
+
+            <div class="side-sec">
+              <div class="side-title">
+                <svg class="icon icon-sm"><use href="#i-sparkles"/></svg> 知识推荐
+                <span class="spacer"></span>
+                <button class="link" style="font-size:10.5px" data-goto="search">检索</button>
+              </div>
+              <div class="kb-rec">
+                <div class="kb-rec-top">
+                  <span class="kb-rec-title">退款到账时效说明</span>
+                  <span class="kb-rec-score">0.94</span>
+                </div>
+                <p>签收后 1-2 个工作日原路退回，微信支付最快 2 小时到账…</p>
+              </div>
+              <div class="kb-rec">
+                <div class="kb-rec-top">
+                  <span class="kb-rec-title">售后政策 · 七天无理由</span>
+                  <span class="kb-rec-score">0.88</span>
+                </div>
+                <p>自签收次日起 7 天内可申请，商品需保持完好、不影响二次销售…</p>
+              </div>
+              <div class="kb-rec">
+                <div class="kb-rec-top">
+                  <span class="kb-rec-title">物流异常处理 SOP</span>
+                  <span class="kb-rec-score">0.72</span>
+                </div>
+                <p>超过 72 小时无揽收记录，可发起物流工单并同步客户补偿方案…</p>
+              </div>
+            </div>
+
+            <div class="side-sec">
+              <div class="side-title"><svg class="icon icon-sm"><use href="#i-zap"/></svg> 快捷话术</div>
+              <div class="quick-list">
+                <button class="quick-item" data-quick="您好，很高兴为您服务，请问有什么可以帮您？">👋 开场问候</button>
+                <button class="quick-item" data-quick="已为您加急处理，预计 2 小时内会有专员与您联系。">⚡ 加急处理</button>
+                <button class="quick-item" data-quick="非常抱歉给您带来不便，我们会持续跟进直到问题解决。">🙏 致歉安抚</button>
+                <button class="quick-item" data-quick="感谢您的耐心等待，祝您生活愉快，再见！">✅ 结束语</button>
+              </div>
+            </div>
+
+            <div class="side-sec" style="border-bottom:none">
+              <div class="side-title"><svg class="icon icon-sm"><use href="#i-clipboard"/></svg> 会话信息</div>
+              <dl style="margin:0">
+                <div class="info-row"><dt>接入时间</dt><dd>14:32:08</dd></div>
+                <div class="info-row"><dt>等待时长</dt><dd>8 秒</dd></div>
+                <div class="info-row"><dt>会话轮次</dt><dd>6 轮</dd></div>
+                <div class="info-row"><dt>AI 参与度</dt><dd>64%</dd></div>
+              </dl>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- ==================== 3. Knowledge ==================== -->
+      <section class="page" id="page-knowledge">
+        <div class="page-head">
+          <div>
+            <h2>知识库管理</h2>
+            <p>统一管理文档与问答对，持续供给 AI 与人工坐席，所有操作实时生效。</p>
+          </div>
+          <div class="actions">
+            <button class="btn" id="importBtn"><svg class="icon"><use href="#i-upload"/></svg> 批量导入</button>
+            <button class="btn btn-primary" id="newDocBtn"><svg class="icon"><use href="#i-plus"/></svg> 新建知识</button>
+          </div>
+        </div>
+
+        <div class="kb-stats">
+          <div class="card kb-stat">
+            <span class="ic"><svg class="icon"><use href="#i-book"/></svg></span>
+            <div><div class="n" id="statDocs">18</div><div class="l">文档知识</div></div>
+            <span class="side">本周 +3</span>
+          </div>
+          <div class="card kb-stat">
+            <span class="ic teal"><svg class="icon"><use href="#i-info"/></svg></span>
+            <div><div class="n" id="statFaq">12</div><div class="l">问答对</div></div>
+            <span class="side" id="statFaqSide">2 组待优化</span>
+          </div>
+          <div class="card kb-stat">
+            <span class="ic warn"><svg class="icon"><use href="#i-clock"/></svg></span>
+            <div><div class="n" id="statReview">3</div><div class="l">待审核</div></div>
+            <span class="side">需尽快处理</span>
+          </div>
+          <div class="card kb-stat">
+            <span class="ic violet"><svg class="icon"><use href="#i-database"/></svg></span>
+            <div><div class="n">96<span style="font-size:12px">%</span></div><div class="l">索引健康度</div></div>
+            <span class="side">1,234 / 1,286</span>
+          </div>
+        </div>
+
+        <div class="kb-layout">
+          <div class="card kb-cats" id="kbCats"></div>
+
+          <div class="card" style="min-width:0">
+            <div class="tabs" id="kbTabs">
+              <button class="tab active" data-tab="doc">文档知识 <span class="num" id="docTabCount">18</span></button>
+              <button class="tab" data-tab="qa">问答对 <span class="num" id="qaTabCount">12</span></button>
+            </div>
+
+            <!-- ---------------- 文档知识 ---------------- -->
+            <div id="docView">
+              <div class="toolbar">
+                <div class="field">
+                  <svg class="icon"><use href="#i-search"/></svg>
+                  <input id="kbSearch" placeholder="搜索标题、摘要或知识编号…" />
+                </div>
+                <select class="select-sm" id="kbStatus">
+                  <option value="all">全部状态</option>
+                  <option value="已发布">已发布</option>
+                  <option value="审核中">审核中</option>
+                  <option value="草稿">草稿</option>
+                </select>
+                <button class="btn btn-sm" id="advToggle">
+                  <svg class="icon"><use href="#i-filter"/></svg> 更多筛选
+                  <span class="filter-dot" id="advDot" hidden></span>
+                </button>
+                <span class="spacer"></span>
+                <span class="badge badge-ghost" id="kbCount">共 18 条</span>
+              </div>
+
+              <div class="adv-filter" id="advFilter">
+                <div class="af-field">
+                  <label>知识类型</label>
+                  <select class="select-sm" id="kbType">
+                    <option value="all">全部类型</option><option>文档</option><option>问答</option><option>表格</option>
+                  </select>
+                </div>
+                <div class="af-field">
+                  <label>负责人</label>
+                  <select class="select-sm" id="kbOwner">
+                    <option value="all">全部负责人</option><option>林清</option><option>苏禾</option><option>周野</option><option>陈屿</option>
+                  </select>
+                </div>
+                <div class="af-field">
+                  <label>更新时间</label>
+                  <select class="select-sm" id="kbRange">
+                    <option value="all">不限</option><option value="7">近 7 天</option><option value="30">近 30 天</option><option value="old">30 天以前</option>
+                  </select>
+                </div>
+                <div class="af-field">
+                  <label>命中量</label>
+                  <select class="select-sm" id="kbHit">
+                    <option value="all">不限</option><option value="high">500 以上</option><option value="mid">100 - 500</option><option value="low">100 以下</option>
+                  </select>
+                </div>
+                <span class="spacer"></span>
+                <button class="btn btn-sm" id="advReset">重置</button>
+                <button class="btn btn-sm btn-primary" id="advApply">应用筛选</button>
+              </div>
+
+              <div class="bulk-bar" id="bulkBar">
+                <span>已选 <b id="bulkCount">0</b> 项</span>
+                <span class="bulk-sep"></span>
+                <button class="btn btn-sm" id="bulkPublish">批量发布</button>
+                <button class="btn btn-sm" id="bulkMove">批量移动</button>
+                <button class="btn btn-sm btn-danger" id="bulkDelete">删除</button>
+                <button class="btn btn-sm btn-ghost" id="bulkClear" style="margin-left:auto">取消选择</button>
+              </div>
+
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th style="width:36px"><span class="checkbox" id="kbCheckAll"></span></th>
+                      <th>知识标题</th>
+                      <th>所属分类</th>
+                      <th>类型</th>
+                      <th>近 7 日命中</th>
+                      <th>更新时间</th>
+                      <th>状态</th>
+                      <th style="text-align:right">操作</th>
+                    </tr>
+                  </thead>
+                  <tbody id="kbBody"></tbody>
+                </table>
+              </div>
+              <div class="table-foot">
+                <span id="kbFootMeta"></span>
+                <div class="pager" id="kbPager"></div>
+              </div>
+            </div>
+
+            <!-- ---------------- 问答对 FAQ ---------------- -->
+            <div id="qaView" style="display:none">
+              <div class="faq-stats">
+                <div><div class="n" id="faqTotal">12</div><div class="l">问答对总数</div></div>
+                <div><div class="n" id="faqHitSum">2,896</div><div class="l">近 7 日命中</div></div>
+                <div><div class="n" id="faqAvgResolve">91.6<span>%</span></div><div class="l">平均解决率</div></div>
+                <div><div class="n warn" id="faqPending">2</div><div class="l">待优化</div></div>
+              </div>
+
+              <div class="faq-filter">
+                <div class="field">
+                  <svg class="icon"><use href="#i-search"/></svg>
+                  <input id="faqSearch" placeholder="搜索问题、相似问法或答案…" />
+                </div>
+                <select class="select-sm" id="faqStatus">
+                  <option value="all">全部状态</option>
+                  <option value="已生效">已生效</option>
+                  <option value="待优化">待优化</option>
+                  <option value="已停用">已停用</option>
+                </select>
+                <span class="spacer"></span>
+                <span class="badge badge-ghost" id="faqCount">共 12 组</span>
+                <button class="btn btn-sm" id="faqExport"><svg class="icon"><use href="#i-download"/></svg> 导出</button>
+                <button class="btn btn-primary btn-sm" id="newFaqBtn"><svg class="icon"><use href="#i-plus"/></svg> 新建问答</button>
+              </div>
+
+              <div class="faq-cat-chips" id="faqCats"></div>
+
+              <div class="bulk-bar" id="faqBulkBar">
+                <span>已选 <b id="faqBulkCount">0</b> 组</span>
+                <span class="bulk-sep"></span>
+                <button class="btn btn-sm" id="faqBulkOn">批量启用</button>
+                <button class="btn btn-sm" id="faqBulkOff">批量停用</button>
+                <button class="btn btn-sm btn-danger" id="faqBulkDel">删除</button>
+                <button class="btn btn-sm btn-ghost" id="faqBulkClear" style="margin-left:auto">取消选择</button>
+              </div>
+
+              <div class="table-wrap">
+                <table class="faq-table">
+                  <thead>
+                    <tr>
+                      <th style="width:34px"><span class="checkbox" id="faqCheckAll"></span></th>
+                      <th>问答问题</th>
+                      <th style="width:84px">分类</th>
+                      <th style="width:72px">相似问法</th>
+                      <th style="width:92px" class="sortable" data-fsort="hits">7 日命中</th>
+                      <th style="width:118px" class="sortable" data-fsort="resolve">解决率</th>
+                      <th style="width:88px" class="sortable" data-fsort="updated">更新时间</th>
+                      <th style="width:78px">状态</th>
+                      <th style="width:108px;text-align:right">操作</th>
+                    </tr>
+                  </thead>
+                  <tbody id="faqBody"></tbody>
+                </table>
+              </div>
+              <div class="table-foot">
+                <span id="faqFootMeta"></span>
+                <div class="pager" id="faqPager"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== 3.1 Knowledge detail (full page) ==================== -->
+      <section class="page" id="page-kb-detail">
+        <div class="subpage" id="kbDetailRoot"></div>
+      </section>
+
+      <!-- ==================== 3.2 Knowledge editor (full page) ==================== -->
+      <section class="page" id="page-kb-edit">
+        <div class="subpage" id="kbEditRoot"></div>
+      </section>
+
+      <!-- ==================== 3.3 FAQ editor (full page) ==================== -->
+      <section class="page" id="page-faq-edit">
+        <div class="subpage" id="faqEditRoot"></div>
+      </section>
+
+      <!-- ==================== 4. Search ==================== -->
+      <section class="page" id="page-search">
+        <div class="card search-hero">
+          <h2>知识查询</h2>
+          <p>语义检索 + 关键词混合召回，实时验证知识覆盖度与答案质量。</p>
+          <div class="search-box">
+            <div class="field">
+              <svg class="icon"><use href="#i-search"/></svg>
+              <input id="searchInput" value="退款多久能到账" placeholder="输入客户问题，如「退款多久能到账」" />
+            </div>
+            <button class="btn btn-primary" id="searchBtn"><svg class="icon"><use href="#i-search"/></svg> 查询</button>
+          </div>
+          <div class="search-meta">
+            <div class="modes" id="searchModes">
+              <button class="chip active" data-mode="hybrid"><svg class="icon"><use href="#i-layers"/></svg> 混合检索</button>
+              <button class="chip" data-mode="semantic"><svg class="icon"><use href="#i-sparkles"/></svg> 语义检索</button>
+              <button class="chip" data-mode="keyword"><svg class="icon"><use href="#i-file"/></svg> 关键词</button>
+            </div>
+            <span class="search-stat">召回 <b id="recallNum">38</b> 条 · 耗时 <b>126ms</b> · 平均相关度 <b id="avgRel">0.86</b></span>
+          </div>
+        </div>
+
+        <div class="search-layout">
+          <div class="card">
+            <div class="answer-card">
+              <div class="answer-head"><svg class="icon icon-sm"><use href="#i-sparkles"/></svg> AI 聚合答案</div>
+              <p id="aiAnswer">退款一般在仓库签收后 <b>1-2 个工作日</b> 内原路退回。微信支付通常 2 小时内到账，银行卡可能需要 3-5 个工作日。若超过 5 个工作日未到账，建议提交支付凭证由财务专员核查。</p>
+              <div class="src">
+                <span>引用来源：</span>
+                <span class="badge badge-ghost">退款到账时效说明</span>
+                <span class="badge badge-ghost">售后政策 v3.2</span>
+                <span class="search-stat" style="margin-left:auto">生成耗时 1.2s</span>
+              </div>
+            </div>
+            <div class="card-head" style="border-top:1px solid var(--border)">
+              <h3>召回结果</h3>
+              <span class="sub" id="resultQuery">“退款多久能到账”</span>
+              <div class="spacer"></div>
+              <select class="select-sm" id="relSort">
+                <option>按相关度排序</option>
+                <option>按更新时间排序</option>
+                <option>按命中次数排序</option>
+              </select>
+            </div>
+            <div class="result-list" id="resultList"></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><h3>检索调试</h3><div class="spacer"></div><span class="badge badge-teal">实时</span></div>
+            <div class="debug-block">
+              <div class="debug-title"><svg class="icon icon-sm"><use href="#i-target"/></svg> 召回参数</div>
+              <div class="debug-row"><span>相似度阈值</span><b id="thresholdVal">0.72</b></div>
+              <div class="range-row">
+                <input type="range" id="threshold" min="0.3" max="0.95" step="0.01" value="0.72" />
+              </div>
+              <div class="debug-row"><span>Top K</span><b>5</b></div>
+              <div class="debug-row"><span>向量模型</span><b>bge-large-zh</b></div>
+              <div class="debug-row"><span>重排模型</span><b>bge-reranker</b></div>
+            </div>
+            <div class="debug-block">
+              <div class="debug-title"><svg class="icon icon-sm"><use href="#i-database"/></svg> 检索范围</div>
+              <label class="debug-row" style="cursor:pointer"><span><span class="checkbox checked" style="vertical-align:-3px;margin-right:6px"><svg class="icon"><use href="#i-check"/></svg></span>产品手册</span><b>412</b></label>
+              <label class="debug-row" style="cursor:pointer"><span><span class="checkbox checked" style="vertical-align:-3px;margin-right:6px"><svg class="icon"><use href="#i-check"/></svg></span>售后政策</span><b>186</b></label>
+              <label class="debug-row" style="cursor:pointer"><span><span class="checkbox checked" style="vertical-align:-3px;margin-right:6px"><svg class="icon"><use href="#i-check"/></svg></span>常见问题</span><b>438</b></label>
+              <label class="debug-row" style="cursor:pointer"><span><span class="checkbox" style="vertical-align:-3px;margin-right:6px"></span>内部培训</span><b>92</b></label>
+            </div>
+            <div class="debug-block">
+              <div class="debug-title"><svg class="icon icon-sm"><use href="#i-zap"/></svg> 召回分布</div>
+              <div class="hbar-list">
+                <div class="hbar-row">
+                  <div class="hbar-top"><span class="name">向量召回</span><span class="val">26 条</span></div>
+                  <div class="hbar"><i style="width:68%"></i></div>
+                </div>
+                <div class="hbar-row">
+                  <div class="hbar-top"><span class="name">关键词召回</span><span class="val">9 条</span></div>
+                  <div class="hbar"><i style="width:24%"></i></div>
+                </div>
+                <div class="hbar-row">
+                  <div class="hbar-top"><span class="name">图谱补全</span><span class="val">3 条</span></div>
+                  <div class="hbar"><i style="width:8%"></i></div>
+                </div>
+              </div>
+            </div>
+            <div class="debug-block">
+              <div class="debug-title"><svg class="icon icon-sm"><use href="#i-info"/></svg> 本次评价</div>
+              <div style="display:flex;gap:6px;margin-top:2px">
+                <button class="btn btn-sm" data-feedback="good">👍 有帮助</button>
+                <button class="btn btn-sm" data-feedback="bad">👎 需优化</button>
+              </div>
+              <p style="font-size:10.5px;color:var(--muted);margin-top:8px;line-height:1.5">反馈将进入「知识缺口」分析，用于自动补全文档。</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== 5. QA ==================== -->
+      <section class="page" id="page-qa">
+        <div class="page-head">
+          <div>
+            <h2>质检系统</h2>
+            <p>全量 AI 自动质检 + 规则引擎，覆盖服务规范、合规风险与解决质量。</p>
+          </div>
+          <div class="actions">
+            <button class="btn"><svg class="icon"><use href="#i-download"/></svg> 导出质检报告</button>
+            <button class="btn btn-primary" id="newTaskBtn"><svg class="icon"><use href="#i-play"/></svg> 发起抽检</button>
+          </div>
+        </div>
+
+        <div class="kpi-grid">
+          <div class="card kpi">
+            <div class="kpi-top"><span class="kpi-label">抽检覆盖率</span><span class="kpi-icon"><svg class="icon"><use href="#i-eye"/></svg></span></div>
+            <div class="kpi-value">24.9<small>%</small></div>
+            <div class="kpi-foot">今日抽检 320 / 1,284 通</div>
+          </div>
+          <div class="card kpi">
+            <div class="kpi-top"><span class="kpi-label">平均质检得分</span><span class="kpi-icon teal"><svg class="icon"><use href="#i-star"/></svg></span></div>
+            <div class="kpi-value">91.4<small>分</small></div>
+            <div class="kpi-foot"><span class="delta up"><svg class="icon"><use href="#i-trend-up"/></svg>1.6</span> 较上周</div>
+          </div>
+          <div class="card kpi">
+            <div class="kpi-top"><span class="kpi-label">违规会话</span><span class="kpi-icon warn"><svg class="icon"><use href="#i-alert"/></svg></span></div>
+            <div class="kpi-value">17<small>通</small></div>
+            <div class="kpi-foot">高风险 2 通 · 需立即处理</div>
+          </div>
+          <div class="card kpi">
+            <div class="kpi-top"><span class="kpi-label">待人工复核</span><span class="kpi-icon violet"><svg class="icon"><use href="#i-clipboard"/></svg></span></div>
+            <div class="kpi-value">3<small>条</small></div>
+            <div class="kpi-foot">最早提交于 32 分钟前</div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:14px">
+          <div class="tabs" id="qaTabs">
+            <button class="tab active" data-qtab="overview">质检概览</button>
+            <button class="tab" data-qtab="rules">规则配置 <span class="num">12</span></button>
+            <button class="tab" data-qtab="review">复核队列 <span class="num">3</span></button>
+          </div>
+
+          <!-- overview -->
+          <div id="qaOverview">
+            <div class="qa-grid" style="padding:16px 16px 0; margin-bottom:0">
+              <div>
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+                  <h3 style="font-size:13px;font-weight:650">质检记录</h3>
+                  <span class="badge badge-ghost">最近 24 小时</span>
+                  <div style="margin-left:auto" class="segmented" id="qaLevel">
+                    <button class="active" data-level="all">全部</button>
+                    <button data-level="风险">风险</button>
+                    <button data-level="待复核">待复核</button>
+                  </div>
+                </div>
+                <div class="card">
+                  <div class="table-wrap">
+                    <table>
+                      <thead>
+                        <tr><th>会话 / 客服</th><th>得分</th><th>命中规则</th><th>状态</th><th style="text-align:right">操作</th></tr>
+                      </thead>
+                      <tbody id="qaBody"></tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+                  <h3 style="font-size:13px;font-weight:650">能力雷达</h3>
+                  <span class="badge badge-primary">团队均值</span>
+                </div>
+                <div class="card"><div class="card-body" style="padding:6px"><div id="radarChart"></div></div></div>
+                <div class="card" style="margin-top:12px">
+                  <div class="card-head"><h3>规则命中 Top 5</h3></div>
+                  <div class="card-body" style="padding:12px 16px"><div id="qaHitBars"></div></div>
+                </div>
+              </div>
+            </div>
+            <div style="padding:16px">
+              <div class="card" style="box-shadow:none">
+                <div class="card-head"><h3>质检趋势</h3><span class="sub">近 7 天得分与违规量</span></div>
+                <div class="chart-wrap"><div id="qaTrend"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- rules -->
+          <div id="qaRules" style="display:none">
+            <div class="toolbar">
+              <div class="field"><svg class="icon"><use href="#i-search"/></svg><input placeholder="搜索规则名称…" /></div>
+              <select class="select-sm"><option>全部分组</option><option>服务规范</option><option>合规风控</option><option>解决质量</option></select>
+              <span class="spacer"></span>
+              <button class="btn btn-sm btn-primary"><svg class="icon"><use href="#i-plus"/></svg> 新增规则</button>
+            </div>
+            <div id="ruleList"></div>
+          </div>
+
+          <!-- review -->
+          <div id="qaReview" style="display:none; padding:16px">
+            <div class="card" style="box-shadow:none">
+              <div class="card-head">
+                <h3>待复核队列</h3>
+                <span class="badge badge-warn">3 条积压</span>
+                <div class="spacer"></div>
+                <span style="font-size:11px;color:var(--muted)">按风险等级排序</span>
+              </div>
+              <div class="review-queue" id="reviewList"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== 6. Settings ==================== -->
+      <section class="page" id="page-settings">
+        <div class="page-head">
+          <div><h2>系统设置</h2><p>配置 AI 模型、服务渠道与团队协作方式。</p></div>
+          <div class="actions"><button class="btn btn-primary" id="saveSettings"><svg class="icon"><use href="#i-check"/></svg> 保存更改</button></div>
+        </div>
+
+        <div class="settings-grid">
+          <div class="card">
+            <div class="card-head"><h3>AI 模型配置</h3><div class="spacer"></div><span class="badge badge-success"><i class="dot"></i>运行正常</span></div>
+            <div class="card-body" style="padding:14px 18px">
+              <div class="model-card active">
+                <div class="model-ico"><svg class="icon"><use href="#i-sparkles"/></svg></div>
+                <div class="m"><div class="t">智服大模型 Pro</div><div class="s">通用客服场景 · 平均响应 0.8s</div></div>
+                <div class="radio"></div>
+              </div>
+              <div class="model-card">
+                <div class="model-ico" style="background:#e6f8f7;color:#0d9494"><svg class="icon"><use href="#i-zap"/></svg></div>
+                <div class="m"><div class="t">智服大模型 Flash</div><div class="s">高并发轻量场景 · 平均响应 0.3s</div></div>
+                <div class="radio"></div>
+              </div>
+              <div class="model-card">
+                <div class="model-ico" style="background:#f3ecff;color:#7c3aed"><svg class="icon"><use href="#i-database"/></svg></div>
+                <div class="m"><div class="t">私有化模型节点</div><div class="s">数据不出域 · 需管理员审批</div></div>
+                <div class="radio"></div>
+              </div>
+            </div>
+            <div class="set-row">
+              <div class="txt"><div class="t">答案温度</div><div class="s">数值越低越保守，建议客服场景 0.3-0.5</div></div>
+              <div class="select-sm" style="display:grid;place-items:center">0.4（均衡）</div>
+            </div>
+            <div class="set-row">
+              <div class="txt"><div class="t">答案附带引用来源</div><div class="s">回复中展示知识出处，便于坐席核验</div></div>
+              <div class="toggle on"></div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><h3>服务渠道</h3><div class="spacer"></div><button class="btn btn-sm"><svg class="icon"><use href="#i-plus"/></svg> 接入</button></div>
+            <div class="set-row">
+              <div class="txt"><div class="t">网页在线客服</div><div class="s">www.xinghe.com · 今日 542 会话</div></div>
+              <span class="badge badge-success"><i class="dot"></i>已连接</span>
+            </div>
+            <div class="set-row">
+              <div class="txt"><div class="t">微信公众号</div><div class="s">星河数字服务号 · 今日 386 会话</div></div>
+              <span class="badge badge-success"><i class="dot"></i>已连接</span>
+            </div>
+            <div class="set-row">
+              <div class="txt"><div class="t">APP 内嵌客服</div><div class="s">iOS / Android · 今日 268 会话</div></div>
+              <span class="badge badge-success"><i class="dot"></i>已连接</span>
+            </div>
+            <div class="set-row">
+              <div class="txt"><div class="t">400 电话热线</div><div class="s">待配置语音转写与坐席绑定</div></div>
+              <span class="badge badge-ghost">未配置</span>
+            </div>
+            <div class="set-row">
+              <div class="txt"><div class="t">邮件工单</div><div class="s">support@xinghe.com</div></div>
+              <span class="badge badge-success"><i class="dot"></i>已连接</span>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><h3>质检与通知</h3></div>
+            <div class="set-row">
+              <div class="txt"><div class="t">全量自动质检</div><div class="s">每通会话结束后自动打分并标记风险</div></div>
+              <div class="toggle on"></div>
+            </div>
+            <div class="set-row">
+              <div class="txt"><div class="t">高风险实时告警</div><div class="s">命中合规红线时推送给当班主管</div></div>
+              <div class="toggle on"></div>
+            </div>
+            <div class="set-row">
+              <div class="txt"><div class="t">每日质检日报</div><div class="s">每天 09:00 推送至邮箱与企微群</div></div>
+              <div class="toggle on"></div>
+            </div>
+            <div class="set-row">
+              <div class="txt"><div class="t">抽检比例</div><div class="s">自动抽检覆盖全部渠道会话</div></div>
+              <select class="select-sm"><option>25%</option><option>50%</option><option>100%</option></select>
+            </div>
+            <div class="set-row">
+              <div class="txt"><div class="t">低分自动复核</div><div class="s">得分低于 80 分自动进入人工复核</div></div>
+              <div class="toggle on"></div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><h3>团队与权限</h3><div class="spacer"></div><button class="btn btn-sm">管理成员</button></div>
+            <div class="set-row">
+              <div class="txt"><div class="t">客服坐席</div><div class="s">在线 8 / 12 人，忙碌 2 人</div></div>
+              <span class="badge badge-primary">12 人</span>
+            </div>
+            <div class="set-row">
+              <div class="txt"><div class="t">质检员</div><div class="s">拥有复核与申诉裁定权限</div></div>
+              <span class="badge badge-violet">3 人</span>
+            </div>
+            <div class="set-row">
+              <div class="txt"><div class="t">知识运营</div><div class="s">负责知识审核与版本发布</div></div>
+              <span class="badge badge-teal">2 人</span>
+            </div>
+            <div class="set-row">
+              <div class="txt"><div class="t">会话数据保留</div><div class="s">超期数据自动脱敏归档</div></div>
+              <select class="select-sm"><option>180 天</option><option>365 天</option><option>永久</option></select>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</div>
+
+<!-- Drawer -->
+<div class="drawer-mask" id="drawerMask"></div>
+<aside class="drawer" id="drawer">
+  <div class="drawer-head">
+    <div>
+      <h3 id="drawerTitle">质检详情</h3>
+      <p id="drawerSub">QC-20261019-042 · 2026-10-19 14:12</p>
+    </div>
+    <button class="icon-btn" id="drawerClose"><svg class="icon"><use href="#i-x"/></svg></button>
+  </div>
+  <div class="drawer-body" id="drawerBody"></div>
+</aside>
+
+<!-- 批量导入 -->
+<div class="modal-mask" id="importMask">
+  <div class="modal">
+    <div class="modal-head">
+      <div><h3>批量导入知识</h3><p>支持 Word / PDF / Markdown / Excel，自动切分并生成向量索引。</p></div>
+      <button class="icon-btn" id="importClose"><svg class="icon"><use href="#i-x"/></svg></button>
+    </div>
+    <div class="modal-body">
+      <div class="upload-zone" id="importDrop" style="padding:24px">
+        <svg class="icon" style="width:24px;height:24px"><use href="#i-upload"/></svg>
+        <div style="font-size:12.5px;font-weight:600;color:var(--text-2);margin-bottom:2px">点击选择文件或拖拽到此处</div>
+        <div>单个文件 ≤ 20MB，一次最多 50 个文件</div>
+      </div>
+      <div class="import-file" id="importFile" hidden>
+        <span class="doc-ico"><svg class="icon"><use href="#i-file"/></svg></span>
+        <div style="flex:1">
+          <div style="font-size:12px;font-weight:600" id="importFileName">售后政策合集.zip</div>
+          <div style="font-size:10.5px;color:var(--muted)" id="importFileMeta">3 个文件 · 2.4MB · 待解析</div>
+        </div>
+        <button class="icon-btn" style="width:26px;height:26px" id="importFileRemove"><svg class="icon icon-sm"><use href="#i-x"/></svg></button>
+      </div>
+
+      <div class="form-grid" style="margin-top:14px">
+        <div class="form-row">
+          <label>导入到分类</label>
+          <select id="importCat"><option>售后政策</option><option>产品手册</option><option>常见问题</option><option>技术文档</option><option>内部培训</option></select>
+        </div>
+        <div class="form-row">
+          <label>标题冲突处理</label>
+          <select id="importConflict"><option>跳过同名文档</option><option>覆盖同名文档</option><option>保留两者</option></select>
+        </div>
+      </div>
+
+      <div class="import-progress" id="importProgress" hidden>
+        <div class="ip-top"><span id="importStage">正在上传…</span><span id="importPct">0%</span></div>
+        <div class="ip-bar"><i id="importBar" style="width:0%"></i></div>
+        <div class="ip-log" id="importLog"></div>
+      </div>
+
+      <div class="import-result" id="importResult" hidden></div>
+
+      <div class="import-tip">
+        <svg class="icon icon-sm"><use href="#i-info"/></svg>
+        首次导入建议先下载模板，按「标题 / 分类 / 正文」三列整理，可显著提升解析准确率。
+        <button class="link" id="downloadTpl" style="margin-left:auto">下载模板</button>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn" id="importCancel">取消</button>
+      <button class="btn btn-primary" id="importStart">开始导入</button>
+    </div>
+  </div>
+</div>
+
+<!-- 确认弹窗 -->
+<div class="modal-mask" id="confirmMask">
+  <div class="modal modal-sm">
+    <div class="modal-head" style="padding-bottom:6px">
+      <div><h3 id="confirmTitle">确认删除</h3><p id="confirmText">删除后不可恢复，是否继续？</p></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn" id="confirmCancel">取消</button>
+      <button class="btn btn-danger" id="confirmOk">确认删除</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-wrap" id="toastWrap"></div>
+
+<script src="assets/data.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

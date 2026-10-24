@@ -1,0 +1,29 @@
+:root {
+  --zf-bg: #eef1f7;
+  --zf-panel: #ffffff;
+  --zf-ink: #1a2233;
+  --zf-muted: #6b7385;
+  --zf-line: #e5e9f2;
+  --zf-primary: #3d4fd8;
+  --zf-primary-soft: #eef0ff;
+  --zf-teal: #0d9494;
+  --zf-sidebar: #141b2d;
+  --zf-sidebar-text: #c5cbe0;
+  --zf-radius: 12px;
+  font-family: 'Noto Sans SC', 'DM Sans', sans-serif;
+  color: var(--zf-ink);
+  background: var(--zf-bg);
+}
+
+* { box-sizing: border-box; }
+html, body, #app { height: 100%; margin: 0; }
+a { color: inherit; text-decoration: none; }
+
+.page-card {
+  background: var(--zf-panel);
+  border: 1px solid var(--zf-line);
+  border-radius: var(--zf-radius);
+  padding: 16px 18px;
+}
+
+.muted { color: var(--zf-muted); font-size: 13px; }
