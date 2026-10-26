@@ -28,6 +28,10 @@ function logout() {
       </div>
       <nav class="nav">
         <div class="nav-label">工作空间</div>
+        <router-link class="nav-item" to="/dashboard">
+          <el-icon><Odometer /></el-icon>
+          <span>运营概览</span>
+        </router-link>
         <router-link class="nav-item" to="/workspace">
           <el-icon><Headset /></el-icon>
           <span>客服工作台</span>
@@ -37,11 +41,25 @@ function logout() {
           <el-icon><Collection /></el-icon>
           <span>知识库管理</span>
         </router-link>
+        <router-link class="nav-item" to="/search">
+          <el-icon><Search /></el-icon>
+          <span>知识查询</span>
+        </router-link>
+        <div class="nav-label">质量管理</div>
+        <router-link class="nav-item" to="/qa">
+          <el-icon><Shield /></el-icon>
+          <span>质检系统</span>
+        </router-link>
+        <div class="nav-label">系统</div>
+        <router-link class="nav-item" to="/settings">
+          <el-icon><Setting /></el-icon>
+          <span>系统设置</span>
+        </router-link>
       </nav>
       <div class="side-foot">
         <div class="help">
-          <strong>今日范围</strong>
-          <p>登录注册 · 工作台 · 知识库 FAQ/文档</p>
+          <strong>智服云</strong>
+          <p>运营 · 工作台 · 知识 · 质检 · 设置</p>
         </div>
       </div>
     </aside>

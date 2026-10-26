@@ -18,8 +18,14 @@ const router = createRouter({
     {
       path: '/',
       component: () => import('@/layout/MainLayout.vue'),
-      redirect: '/workspace',
+      redirect: '/dashboard',
       children: [
+        {
+          path: 'dashboard',
+          name: 'dashboard',
+          component: () => import('@/views/DashboardView.vue'),
+          meta: { title: '运营概览', sub: '智能客服全链路运营数据' },
+        },
         {
           path: 'workspace',
           name: 'workspace',
@@ -32,6 +38,24 @@ const router = createRouter({
           component: () => import('@/views/KnowledgeView.vue'),
           meta: { title: '知识库管理', sub: 'FAQ 与文档统一供给智能体' },
         },
+        {
+          path: 'search',
+          name: 'search',
+          component: () => import('@/views/SearchView.vue'),
+          meta: { title: '知识查询', sub: '语义检索 · 召回调试与效果分析' },
+        },
+        {
+          path: 'qa',
+          name: 'qa',
+          component: () => import('@/views/QaView.vue'),
+          meta: { title: '质检系统', sub: '全量自动质检 · 人工复核' },
+        },
+        {
+          path: 'settings',
+          name: 'settings',
+          component: () => import('@/views/SettingsView.vue'),
+          meta: { title: '系统设置', sub: '模型、渠道与团队配置' },
+        },
       ],
     },
   ],
@@ -43,7 +67,7 @@ router.beforeEach((to) => {
     return { path: '/login', query: { redirect: to.fullPath } }
   }
   if ((to.path === '/login' || to.path === '/register') && token) {
-    return { path: '/workspace' }
+    return { path: '/dashboard' }
   }
   return true
 })

@@ -7,14 +7,18 @@ from app.core.config import get_settings
 from app.core.database import SessionLocal, engine, Base
 from app.core.security import hash_password
 from app.models import (
+    Alert,
     Conversation,
     Customer,
     KbCategory,
     KbDocument,
     KbFaq,
     Message,
+    QaRule,
+    SysSetting,
     User,
 )
+import json as _json
 from app.services.indexer import index_document, index_faq
 from app.rag import store as vector_store
 
@@ -238,6 +242,102 @@ def seed() -> None:
                 ),
             ]
             db.add_all(msgs)
+            db.commit()
+
+        if db.query(QaRule).count() == 0:
+            db.add_all(
+                [
+                    QaRule(
+                        name="开场问候规范",
+                        group_name="服务规范",
+                        description="首响需礼貌问候",
+                        severity="low",
+                        check_prompt="检查是否有问候语",
+                    ),
+                    QaRule(
+                        name="致歉安抚",
+                        group_name="服务规范",
+                        description="客诉场景必须致歉",
+                        severity="medium",
+                        check_prompt="必须致歉安抚客户",
+                    ),
+                    QaRule(
+                        name="禁用辱骂用语",
+                        group_name="合规风控",
+                        description="禁止不文明用语",
+                        severity="high",
+                        check_prompt="检测辱骂词",
+                    ),
+                    QaRule(
+                        name="隐私信息保护",
+                        group_name="合规风控",
+                        description="不得完整泄露证件号银行卡",
+                        severity="high",
+                        check_prompt="检测隐私泄露",
+                    ),
+                    QaRule(
+                        name="问题解决闭环",
+                        group_name="解决质量",
+                        description="需给出明确下一步",
+                        severity="medium",
+                        check_prompt="是否给出处理结论",
+                    ),
+                ]
+            )
+            db.commit()
+
+        if db.query(Alert).count() == 0:
+            db.add_all(
+                [
+                    Alert(
+                        level="danger",
+                        title="会话 #A-2048 客户情绪升级，等待超时",
+                        detail="渠道：微信 · 客服 李沐",
+                        link_page="workspace",
+                    ),
+                    Alert(
+                        level="warn",
+                        title="「售后政策」知识库有文档超过 90 天未更新",
+                        detail="知识库管理",
+                        link_page="knowledge",
+                    ),
+                    Alert(
+                        level="danger",
+                        title="质检复核队列有积压",
+                        detail="质检系统",
+                        link_page="qa",
+                    ),
+                    Alert(
+                        level="ok",
+                        title="知识库增量索引完成",
+                        detail="系统任务",
+                        link_page="knowledge",
+                    ),
+                ]
+            )
+            db.commit()
+
+        if db.query(SysSetting).count() == 0:
+            defaults = {
+                "ai": {"profile": "pro", "temperature": 0.4, "show_citations": True},
+                "channels": [
+                    {"key": "web", "name": "网页在线客服", "enabled": True, "status": "connected"},
+                    {"key": "wechat_mp", "name": "微信公众号", "enabled": True, "status": "connected"},
+                    {"key": "wecom", "name": "企业微信", "enabled": True, "status": "connected"},
+                    {"key": "app", "name": "APP 内嵌客服", "enabled": True, "status": "connected"},
+                    {"key": "phone", "name": "400 电话热线", "enabled": False, "status": "unconfigured"},
+                ],
+                "qa_notify": {
+                    "auto_inspect": True,
+                    "high_risk_alert": True,
+                    "daily_report": True,
+                    "sample_ratio": 25,
+                    "low_score_review": True,
+                },
+                "team": {"agents": 12, "online": 8, "busy": 2, "qa_staff": 3, "kb_ops": 2, "retention_days": 180},
+            }
+            for key, val in defaults.items():
+                db.add(SysSetting(key=key, value=_json.dumps(val, ensure_ascii=False)))
             db.commit()
     finally:
         db.close()
