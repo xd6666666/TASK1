@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import re
 import time
 
 from sqlalchemy import or_
@@ -10,47 +11,143 @@ from app.models.knowledge import KbChunk, KbDocument, KbFaq
 from app.rag.embeddings import embed_query
 from app.rag.store import search
 
+# 过短、无检索价值的片段
+_STOP = {
+    "的",
+    "了",
+    "吗",
+    "呢",
+    "啊",
+    "吧",
+    "么",
+    "什么",
+    "怎么",
+    "如何",
+    "请问",
+    "一下",
+    "可以",
+    "是不是",
+}
+
+
+def _query_terms(query: str) -> list[str]:
+    """从中文问题里抽出可用于模糊匹配的词/片段。"""
+    q = re.sub(r"\s+", "", (query or "").strip())
+    if not q:
+        return []
+
+    terms: list[str] = [q]
+
+    # 连续中文按 2～4 字滑窗
+    for n in (4, 3, 2):
+        if len(q) < n:
+            continue
+        for i in range(len(q) - n + 1):
+            piece = q[i : i + n]
+            if piece in _STOP:
+                continue
+            terms.append(piece)
+
+    # 英文/数字单词
+    for w in re.findall(r"[A-Za-z0-9_\-]{2,}", query or ""):
+        terms.append(w)
+
+    # 去重保序
+    seen: set[str] = set()
+    out: list[str] = []
+    for t in terms:
+        if t not in seen:
+            seen.add(t)
+            out.append(t)
+    return out[:24]
+
+
+def _text_blob(faq: KbFaq | None = None, chunk_text: str = "") -> str:
+    if faq is not None:
+        return f"{faq.question}\n{faq.answer}\n{faq.similar_questions or ''}"
+    return chunk_text or ""
+
+
+def _term_score(blob: str, terms: list[str]) -> float:
+    if not blob or not terms:
+        return 0.0
+    hit = sum(1 for t in terms if t in blob)
+    if hit == 0:
+        return 0.0
+    # 全句命中给更高分；多词命中累加
+    ratio = hit / max(len(terms), 1)
+    base = 0.42 + 0.5 * ratio
+    if terms and terms[0] in blob:
+        base += 0.15
+    return min(0.95, base)
+
 
 def _keyword_hits(db: Session, query: str, top_k: int) -> list[dict]:
-    like = f"%{query}%"
-    faqs = (
-        db.query(KbFaq)
-        .filter(KbFaq.status == "published")
-        .filter(
-            or_(
+    terms = _query_terms(query)
+    if not terms:
+        return []
+
+    # OR 多个片段，避免必须整句完全一致（「退款多久到账」也能打到「退款多久能到账」）
+    faq_conds = []
+    chunk_conds = []
+    for t in terms[:12]:
+        like = f"%{t}%"
+        faq_conds.extend(
+            [
                 KbFaq.question.like(like),
                 KbFaq.answer.like(like),
                 KbFaq.similar_questions.like(like),
-            )
+            ]
         )
-        .limit(top_k)
+        chunk_conds.append(KbChunk.content.like(like))
+
+    faqs = (
+        db.query(KbFaq)
+        .filter(KbFaq.status == "published")
+        .filter(or_(*faq_conds))
+        .limit(max(top_k * 4, 20))
         .all()
     )
-    chunks = db.query(KbChunk).filter(KbChunk.content.like(like)).limit(top_k).all()
-    hits: list[dict] = []
+    chunks = (
+        db.query(KbChunk)
+        .filter(or_(*chunk_conds))
+        .limit(max(top_k * 4, 20))
+        .all()
+    )
+
+    scored: list[dict] = []
     for faq in faqs:
-        hits.append(
+        blob = _text_blob(faq=faq)
+        score = _term_score(blob, terms)
+        if score <= 0:
+            continue
+        scored.append(
             {
                 "source_type": "faq",
                 "source_id": faq.id,
                 "chunk_id": 0,
                 "text": f"Q: {faq.question}\nA: {faq.answer}",
-                "score": 0.55,
+                "score": score,
                 "via": "keyword",
             }
         )
     for ch in chunks:
-        hits.append(
+        score = _term_score(ch.content, terms)
+        if score <= 0:
+            continue
+        scored.append(
             {
                 "source_type": "doc",
                 "source_id": ch.document_id,
                 "chunk_id": ch.id,
                 "text": ch.content,
-                "score": 0.5,
+                "score": max(0.35, score - 0.05),
                 "via": "keyword",
             }
         )
-    return hits
+
+    scored.sort(key=lambda x: x["score"], reverse=True)
+    return scored[: max(top_k, 8)]
 
 
 def _semantic_hits(query: str, top_k: int, threshold: float) -> list[dict]:
@@ -108,7 +205,10 @@ def retrieve(
             if key not in merged:
                 merged[key] = h
             else:
-                merged[key]["score"] = max(float(merged[key]["score"]), float(h["score"]))
+                # 语义+关键词同时命中，加权
+                merged[key]["score"] = min(
+                    0.99, max(float(merged[key]["score"]), float(h["score"])) + 0.08
+                )
                 merged[key]["via"] = "hybrid"
 
     out = sorted(merged.values(), key=lambda x: x["score"], reverse=True)[:top_k]
